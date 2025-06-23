@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { motion } from "framer-motion";
+import Particles from "react-tsparticles";
+import { loadFull } from "tsparticles";
 const targetDate = new Date("2026-05-09T00:00:00");
 
 const quotes = [
@@ -10,7 +12,53 @@ const quotes = [
   "Every day is a second chance.",
   "Dream big, work hard!"
 ];
-
+<Particles
+  id="tsparticles"
+  init={loadFull}
+  options={{
+    fullScreen: { enable: true, zIndex: -1 },
+    background: {
+      color: {
+        value: "#f0f4ff"
+      }
+    },
+    particles: {
+      number: {
+        value: 20
+      },
+      shape: {
+        type: "image",
+        image: [
+          { src: "/atom.png", width: 20, height: 20 },
+          { src: "/rocket.png", width: 20, height: 20 },
+          { src: "/nuclear.png", width: 20, height: 20 }
+        ]
+      },
+      size: {
+        value: 30
+      },
+      move: {
+        enable: true,
+        speed: 2,
+        direction: "none",
+        outModes: {
+          default: "bounce"
+        }
+      },
+      opacity: {
+        value: 0.8
+      }
+    },
+    interactivity: {
+      events: {
+        onClick: {
+          enable: true,
+          mode: "repulse"
+        }
+      }
+    }
+  }}
+/>
 function getRemainingTime() {
   const now = new Date();
   const difference = targetDate - now;
