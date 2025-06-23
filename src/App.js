@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import { motion } from "framer-motion";
-const targetDate = new Date("2025-12-31T00:00:00");
+const targetDate = new Date("2026-05-09T00:00:00");
 
 const quotes = [
   "Believe in yourself!",
