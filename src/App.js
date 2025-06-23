@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-
+import { motion } from "framer-motion";
 const targetDate = new Date("2025-12-31T00:00:00");
 
 const quotes = [
@@ -33,19 +33,52 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const quoteIndex = new Date().getDate() % quotes.length;
-    setQuote(quotes[quoteIndex]);
-  }, []);
+  async function fetchQuote() {
+    try {
+      const res = await fetch("https://zenquotes.io/api/today");
+      const data = await res.json();
+      if (data && data[0]) {
+        setQuote(data[0].q + " — " + data[0].a);
+      }
+    } catch (err) {
+      setQuote("Stay motivated and keep going!");
+    }
+  }
+  fetchQuote();
+}, []); 
 
   return (
-    <div className="App">
-      <h1>Countdown to {targetDate.toDateString()}</h1>
-      <h2>
-        {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
-      </h2>
-      <p><em>{quote}</em></p>
-    </div>
-  );
+  <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-sky-100 to-white px-4 text-center">
+    <motion.h1
+      className="text-3xl md:text-5xl font-bold text-gray-800 mb-4"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      Countdown to {targetDate.toDateString()}
+    </motion.h1>
+
+    <motion.div
+      className="text-xl md:text-3xl font-mono text-slate-700 mb-6"
+      key={JSON.stringify(timeLeft)} // triggers animation on update
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+    </motion.div>
+
+    <motion.div
+      className="text-lg md:text-xl italic text-gray-600 max-w-md"
+      key={quote} // triggers animation when quote changes
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.4, duration: 0.6 }}
+    >
+      "{quote}"
+    </motion.div>
+  </div>
+);
 }
 
 export default App;
