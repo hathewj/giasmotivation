@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/giasmotivation/static/css/main.40c702db.css",
-    "main.js": "/giasmotivation/static/js/main.5de822ae.js",
+    "main.css": "/giasmotivation/static/css/main.e9bf5281.css",
+    "main.js": "/giasmotivation/static/js/main.abd70836.js",
     "index.html": "/giasmotivation/index.html",
-    "main.40c702db.css.map": "/giasmotivation/static/css/main.40c702db.css.map",
-    "main.5de822ae.js.map": "/giasmotivation/static/js/main.5de822ae.js.map"
+    "main.e9bf5281.css.map": "/giasmotivation/static/css/main.e9bf5281.css.map",
+    "main.abd70836.js.map": "/giasmotivation/static/js/main.abd70836.js.map"
   },
   "entrypoints": [
-    "static/css/main.40c702db.css",
-    "static/js/main.5de822ae.js"
+    "static/css/main.e9bf5281.css",
+    "static/js/main.abd70836.js"
   ]
 }
