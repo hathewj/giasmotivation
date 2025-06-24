@@ -1,64 +1,11 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import { motion } from "framer-motion";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import ExplodingIcon from './ExplodingIcon';
+import { FaRocket, FaStar } from 'react-icons/fa';
+
 const targetDate = new Date("2026-05-09T00:00:00");
 
-const quotes = [
-  "Believe in yourself!",
-  "Keep pushing forward!",
-  "Success is no accident.",
-  "Every day is a second chance.",
-  "Dream big, work hard!"
-];
-<Particles
-  id="tsparticles"
-  init={loadFull}
-  options={{
-    fullScreen: { enable: true, zIndex: -1 },
-    background: {
-      color: {
-        value: "#f0f4ff"
-      }
-    },
-    particles: {
-      number: {
-        value: 20
-      },
-      shape: {
-        type: "image",
-        image: [
-          { src: "/atom.png", width: 20, height: 20 },
-          { src: "/rocket.png", width: 20, height: 20 },
-          { src: "/nuclear.png", width: 20, height: 20 }
-        ]
-      },
-      size: {
-        value: 30
-      },
-      move: {
-        enable: true,
-        speed: 2,
-        direction: "none",
-        outModes: {
-          default: "bounce"
-        }
-      },
-      opacity: {
-        value: 0.8
-      }
-    },
-    interactivity: {
-      events: {
-        onClick: {
-          enable: true,
-          mode: "repulse"
-        }
-      }
-    }
-  }}
-/>
 function getRemainingTime() {
   const now = new Date();
   const difference = targetDate - now;
@@ -81,52 +28,69 @@ function App() {
   }, []);
 
   useEffect(() => {
-  async function fetchQuote() {
-    try {
-      const res = await fetch("https://zenquotes.io/api/today");
-      const data = await res.json();
-      if (data && data[0]) {
-        setQuote(data[0].q + " — " + data[0].a);
+    async function fetchQuote() {
+      try {
+        const res = await fetch("https://zenquotes.io/api/today");
+        const data = await res.json();
+        if (data && data[0]) {
+          setQuote(data[0].q + " — " + data[0].a);
+        }
+      } catch {
+        setQuote("Stay motivated and keep going!");
       }
-    } catch (err) {
-      setQuote("Stay motivated and keep going!");
     }
-  }
-  fetchQuote();
-}, []); 
+    fetchQuote();
+  }, []);
 
   return (
-  <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-sky-100 to-white px-4 text-center">
-    <motion.h1
-      className="text-3xl md:text-5xl font-bold text-gray-800 mb-4"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
-      Countdown to {targetDate.toDateString()}
-    </motion.h1>
-
-    <motion.div
-      className="text-xl md:text-3xl font-mono text-slate-700 mb-6"
-      key={JSON.stringify(timeLeft)} // triggers animation on update
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
-    </motion.div>
-
-    <motion.div
-      className="text-lg md:text-xl italic text-gray-600 max-w-md"
-      key={quote} // triggers animation when quote changes
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 0.4, duration: 0.6 }}
-    >
-      "{quote}"
-    </motion.div>
-  </div>
-);
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-sky-100 to-white px-4 text-center relative overflow-hidden">
+      <Particles
+        id="tsparticles"
+        init={loadFull}
+        options={{
+          fullScreen: { enable: true, zIndex: -1 },
+          particles: {
+            number: { value: 15 },
+            shape: {
+              type: "circle"
+            },
+            size: { value: 8 },
+            move: {
+              enable: true,
+              speed: 2,
+              outModes: { default: "bounce" }
+            }
+          },
+          interactivity: {
+            events: {
+              onClick: { enable: true, mode: "repulse" }
+            }
+          }
+        }}
+      />
+      <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
+        Countdown to {targetDate.toDateString()}
+      </h1>
+      <div className="text-xl md:text-3xl font-mono text-slate-700 mb-6">
+        {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
+      </div>
+      <div className="text-lg md:text-xl italic text-gray-600 max-w-md mb-6">
+        "{quote}"
+      </div>
+      <div style={{
+        zIndex: 1000,
+        marginTop: '40px',
+        display: 'flex',
+        gap: '40px',
+        background: 'yellow',
+        padding: '20px',
+        position: 'relative',
+      }}>
+        <ExplodingIcon icon={<FaRocket size={60} />} />
+        <ExplodingIcon icon={<FaStar size={60} />} />
+      </div>
+    </div>
+  );
 }
 
 export default App;
